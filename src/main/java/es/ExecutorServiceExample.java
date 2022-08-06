@@ -1,16 +1,15 @@
 package es;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.*;
 
-public class ExecutorServiceExample
-{
-    SimpleDateFormat     sdf   = null;
-    private  final  int  COUNT = 5;
+public class ExecutorServiceExample {
+    SimpleDateFormat sdf = null;
+    private final int COUNT = 5;
 
-    ExecutorServiceExample()
-    {
+    ExecutorServiceExample() {
         sdf = new SimpleDateFormat("HH:mm:ss.S");
 
         CountDownLatch cdl1 = new CountDownLatch(COUNT);
@@ -32,44 +31,47 @@ public class ExecutorServiceExample
             cdl2.await();
             cdl3.await();
             cdl4.await();
-        } catch(InterruptedException exc) { }
+        } catch (InterruptedException exc) {
+        }
 
         executor.shutdown();
         System.out.println("Завершение потоков");
     }
+
     //-------------------------------------------------
-    void printMessage(final String templ)
-    {
-        String text = sdf.format(new Date())+" : "+templ;
+    void printMessage(final String templ) {
+        String text = sdf.format(new Date()) + " : " + templ;
         System.out.println(text);
     }
+
     //-------------------------------------------------
-    class MyThread implements Runnable
-    {
-        String         name;
+    class MyThread implements Runnable {
+        String name;
         CountDownLatch latch;
-        MyThread(CountDownLatch c, String n)
-        {
+
+        MyThread(CountDownLatch c, String n) {
             latch = c;
-            name = n;
+            // FIXME: 7/2/22
+            name = n;// TODO: 7/2/22
             new Thread(this);
         }
 
-        public void run()
-        {
+        public void run() {
+
             try {
-                for(int i = 0; i < COUNT; i++) {
+                for (int i = 0; i < COUNT; i++) {
                     printMessage(name + " - " + i);
                     latch.countDown();
-                    Thread.sleep((long)(Math.random()*1500));
+                    Thread.sleep((long) (Math.random() * 1500));
                 }
                 printMessage(name + " completed");
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
     }
+
     //-------------------------------------------------
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         new ExecutorServiceExample();
     }
 }
