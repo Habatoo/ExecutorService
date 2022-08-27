@@ -13,18 +13,15 @@ public class Main3 {
 
         Set<Callable<Integer>> setOfCallable = new HashSet<>();
         setOfCallable.add(() -> 1);
-        setOfCallable.add(() -> 1);
-        setOfCallable.add(() -> 1);
         setOfCallable.add(() -> 3);
+        setOfCallable.add(() -> 2);
 
         List<Future<Integer>> futures = executor.invokeAll(setOfCallable);
-        int sum = 0;
 
         for (Future<Integer> future : futures) {
-            sum = sum + future.get();
+            System.out.println(future.get());
         }
 
-        System.out.println(sum);
         executor.shutdown();
 
     }

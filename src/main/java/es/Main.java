@@ -11,9 +11,6 @@ class Main {
 
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
-        // Runnable, return void, submit and run the task
-        executor.submit(() -> System.out.println("submit Runnable."));
-
         // Callable, return a future, submit and run the task
         Future<String> callableTask = executor.submit(() -> {
             System.out.println("submit Callable.");
